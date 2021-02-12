@@ -1,0 +1,60 @@
+#EXTINF:-1,CCTV-2 财经
+http://39.134.115.163:8080/PLTV/88888910/224/3221225643/index.m3u8
+#EXTINF:-1,CCTV-3 综艺
+http://39.134.115.163:8080/PLTV/88888910/224/3221225647/index.m3u8
+#EXTINF:-1,CCTV-4 中文国际
+http://39.134.115.163:8080/PLTV/88888910/224/3221225621/index.m3u8
+#EXTINF:-1,CCTV-4 中文国际美洲
+http://cctvalih5ca.v.myalicdn.com/live/cctvamerica_2/index.m3u8
+#EXTINF:-1,CCTV-4 中文国际欧洲
+http://cctvalih5ca.v.myalicdn.com/live/cctveurope_2/index.m3u8
+#EXTINF:-1,CCTV-5 体育
+http://dbiptv.sn.chinamobile.com/pltv/88888890/224/3221226395/index.m3u8
+#EXTINF:-1,CCTV-5+ 体育赛事
+http://39.135.138.59:18890/PLTV/88888910/224/3221225649/index.m3u8
+#EXTINF:-1,CCTV-6 电影
+http://39.135.138.59:18890/PLTV/88888910/224/3221225650/index.m3u8
+#EXTINF:-1,CCTV-7 国防军事
+http://39.135.138.59:18890/PLTV/88888910/224/3221225624/index.m3u8
+#EXTINF:-1,CCTV-8 电视剧
+http://39.135.138.59:18890/PLTV/88888910/224/3221225635/index.m3u8
+#EXTINF:-1,CCTV-9 记录
+http://39.135.138.59:18890/PLTV/88888910/224/3221225626/index.m3u8
+#EXTINF:-1,CCTV-10 科教
+http://39.135.138.59:18890/PLTV/88888910/224/3221225627/index.m3u8
+#EXTINF:-1,CCTV-11 戏曲
+http://39.135.138.59:18890/PLTV/88888910/224/3221225628/index.m3u8
+#EXTINF:-1,CCTV-12 社会与法
+http://39.135.138.59:18890/PLTV/88888910/224/3221225629/index.m3u8
+#EXTINF:-1,CCTV-13 新闻
+http://111.6.169.89/live.rxip.sc96655.com/live/CCTV-xw_4000.m3u8
+#EXTINF:-1,CCTV-14 少儿
+http://39.135.138.59:18890/PLTV/88888910/224/3221225639/index.m3u8
+#EXTINF:-1,CCTV-15 音乐
+http://39.135.138.59:18890/PLTV/88888910/224/3221225641/index.m3u8
+#EXTINF:-1,CCTV-17 农业农村
+http://39.135.138.59:18890/PLTV/88888910/224/3221225907/index.m3u8
+#EXTINF:-1,CCTV-4K 超高清
+http://111.161.121.211/livews-4k.5club.cctv.cn/live/4K1218.stream/playlist.m3u8
+#EXTINF:-1,央视文化精品
+http://20f1c95954.qicp.vip/migu/live.php?id=623338084
+#EXTINF:-1,世界地理
+http://111.6.169.89/live.rxip.sc96655.com/live/sjdl_4000.m3u8
+#EXTINF:-1,女性时尚
+http://111.6.169.89/live.rxip.sc96655.com/live/nxss_4000.m3u8
+#EXTINF:-1,风云音乐
+http://111.6.169.89/live.rxip.sc96655.com/live/fyyy_4000.m3u8
+#EXTINF:-1,风云剧场
+http://20f1c95954.qicp.vip/migu/live.php?id=623338051
+#EXTINF:-1,高尔夫网球
+http://20f1c95954.qicp.vip/migu/live.php?id=621984921
+#EXTINF:-1,央视台球
+http://20f1c95954.qicp.vip/migu/live.php?id=621984950
+#EXTINF:-1,CGTN News
+http://20f1c95954.qicp.vip/migu/live.php?id=609017205
+#EXTINF:-1,CGTN Documentary
+http://20f1c95954.qicp.vip/migu/live.php?id=609006487
+#EXTINF:-1,新华社中文
+http://source07.v.news.cn/live/CNC_CN/playlist.m3u8
+#EXTINF:-1,新华社英文
+http://source07.v.news.cn/live/CNC_EN/playlist.m3u8
