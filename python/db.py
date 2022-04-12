@@ -8,15 +8,12 @@ import time
 
 class DataBase (object) :
 
-    def __init__ (self) :
+    def __init__(self):
         self.dbAddress = os.path.dirname(os.path.abspath(__file__)).replace('python', 'database')
 
         self.table = 'lists'
 
-        if self.connect() == False:
-            self.connStat = False
-        else :
-            self.connStat = True
+        self.connStat = self.connect() != False
 
     def __del__ (self) :
         if self.connStat == True :
@@ -33,20 +30,22 @@ class DataBase (object) :
         except :
             return False
 
-    def create (self) :
+    def create(self):
         if self.connStat == False : return False
 
-        sql = 'create table ' + self.table + ' (id integer PRIMARY KEY autoincrement, title text, quality text, url text, level integer, cros integer,  enable integer, online integer, delay integer, udTime text)'
+        sql = (
+            f'create table {self.table}'
+            + ' (id integer PRIMARY KEY autoincrement, title text, quality text, url text, level integer, cros integer,  enable integer, online integer, delay integer, udTime text)'
+        )
+
         self.cur.execute(sql)
 
-    def query (self, sql, reTry = 3) :
+    def query(self, sql, reTry = 3):
         if self.connStat == False : return False
 
         try:
             self.cur.execute(sql)
-            values = self.cur.fetchall()
-
-            return values
+            return self.cur.fetchall()
         except:
             if reTry > 0 :
                 time.sleep(1)
@@ -61,7 +60,7 @@ class DataBase (object) :
         except :
             return False
 
-    def insert (self, data, reTry = 3):
+    def insert(self, data, reTry = 3):
         if self.connStat == False : return False
 
         keyList = []
@@ -70,7 +69,14 @@ class DataBase (object) :
             keyList.append(k)
             valList.append(str(v).replace('"','\"').replace("'","''"))
 
-        sql = "insert into " + self.table + " (`" + '`, `'.join(keyList) + "`) values ('" + "', '".join(valList) + "')"
+        sql = (
+            f"insert into {self.table} (`"
+            + '`, `'.join(keyList)
+            + "`) values ('"
+            + "', '".join(valList)
+            + "')"
+        )
+
         try:
             self.cur.execute(sql)
             self.conn.commit()
@@ -80,7 +86,7 @@ class DataBase (object) :
                 reTry = reTry - 1
                 self.insert(data, reTry)
 
-    def edit (self, id, data, reTry = 3):
+    def edit(self, id, data, reTry = 3):
         if self.connStat == False : return False
 
         param = ''
@@ -89,7 +95,7 @@ class DataBase (object) :
 
         param = param[1:]
 
-        sql = "update " + self.table + " set %s WHERE id = %s" % (param, id)
+        sql = f"update {self.table}" + f" set {param} WHERE id = {id}"
         try:
             self.cur.execute(sql)
             self.conn.commit()
@@ -106,19 +112,14 @@ class DataBase (object) :
         self.cur.close()
         self.conn.close()
 
-    def chkTable (self) :
+    def chkTable(self):
         if self.connStat == False : return False
 
         sql = "SELECT tbl_name FROM sqlite_master WHERE type='table'"
-        tableStat = False
-
         self.cur.execute(sql)
         values = self.cur.fetchall()
 
-        for x in values:
-            if self.table in x :
-                tableStat = True
-
-        if tableStat == False :
+        tableStat = any(self.table in x for x in values)
+        if not tableStat:
             self.create()
 

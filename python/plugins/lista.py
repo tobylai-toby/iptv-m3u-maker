@@ -11,7 +11,7 @@ class Source (object) :
         self.T = tools.Tools()
         self.now = int(time.time() * 1000)
 
-    def getSource (self) :
+    def getSource(self):
         urlList = []
 
         url = 'https://github.com/billy21/Tvlist-awesome-m3u-m3u8/blob/master/list.md'
@@ -20,7 +20,7 @@ class Source (object) :
         ]
         res = self.T.getPage(url, req)
 
-        if res['code'] == 200 :
+        if res['code'] == 200:
             pattern = re.compile(r"<article(.*?)</article>", re.I|re.S)
             tmp = pattern.findall(res['body'])
 
@@ -29,13 +29,13 @@ class Source (object) :
 
             i = 1
             total = len(sourceList)
-            for item in sourceList :
+            for item in sourceList:
                 info = self.T.fmtTitle(item[0])
-                self.T.logger('正在分析[ %s / %s ]: %s' % (i, total, str(info['id']) + str(info['title'])))
+                self.T.logger(f"正在分析[ {i} / {total} ]: {str(info['id']) + str(info['title'])}")
 
                 netstat = self.T.chkPlayable(item[1])
                 i = i + 1
-                if netstat > 0 :
+                if netstat > 0:
                     cros = 1 if self.T.chkCros(item[1]) else 0
                     data = {
                         'title'  : str(info['id']) if info['id'] != '' else str(info['title']),
@@ -48,9 +48,4 @@ class Source (object) :
                         'udTime' : self.now,
                     }
                     urlList.append(data)
-                else :
-                    pass # MAYBE later :P
-        else :
-            pass # MAYBE later :P
-
         return urlList
