@@ -20,10 +20,10 @@ class Tools (object) :
     def __init__ (self) :
         pass
 
-    def getPage (self, url, requestHeader = [], postData = {}) :
+    def getPage(self, url, requestHeader = [], postData = {}):
         fakeIp = self.fakeIp()
-        requestHeader.append('CLIENT-IP:' + fakeIp)
-        requestHeader.append('X-FORWARDED-FOR:' + fakeIp)
+        requestHeader.append(f'CLIENT-IP:{fakeIp}')
+        requestHeader.append(f'X-FORWARDED-FOR:{fakeIp}')
 
         if postData == {} :
             request = urllib.request.Request(url)
@@ -32,12 +32,12 @@ class Tools (object) :
         else :
             request = urllib.request.Request(url, urllib.parse.urlencode(postData).encode('utf-8'))
 
-        for x in requestHeader :
+        for x in requestHeader:
             headerType = x.split(':')[0]
-            headerCon = x.replace(headerType + ':', '')
+            headerCon = x.replace(f'{headerType}:', '')
             request.add_header(headerType, headerCon)
 
-        try :
+        try:
             ctx = ssl.create_default_context()
             ctx.check_hostname = False
             ctx.verify_mode = ssl.CERT_NONE
@@ -49,47 +49,31 @@ class Tools (object) :
             header = e.headers
             body = e.read().decode('utf-8')
             code = e.code
-        except:
-            header = ''
-            body = ''
-            code = 500
+        return {'code': code, 'header': header, 'body': body}
 
-        result = {
-            'code': code,
-            'header': header,
-            'body': body
-        }
-
-        return result
-
-    def getRealUrl (self, url, requestHeader = []) :
+    def getRealUrl(self, url, requestHeader = []):
         fakeIp = self.fakeIp()
-        requestHeader.append('CLIENT-IP:' + fakeIp)
-        requestHeader.append('X-FORWARDED-FOR:' + fakeIp)
+        requestHeader.append(f'CLIENT-IP:{fakeIp}')
+        requestHeader.append(f'X-FORWARDED-FOR:{fakeIp}')
 
         request = urllib.request.Request(url)
 
-        for x in requestHeader :
+        for x in requestHeader:
             headerType = x.split(':')[0]
-            headerCon = x.replace(headerType + ':', '')
+            headerCon = x.replace(f'{headerType}:', '')
             request.add_header(headerType, headerCon)
         try :
             response = urllib.request.urlopen(request)
             realUrl = response.geturl()
         except :
             realUrl = ""
-        
+
         return realUrl
 
-    def fakeIp (self) :
-        fakeIpList = []
+    def fakeIp(self):
+        fakeIpList = [str(int(random.uniform(0, 255))) for _ in range(4)]
 
-        for x in range(0, 4):
-            fakeIpList.append(str(int(random.uniform(0, 255))))
-
-        fakeIp = '.'.join(fakeIpList)
-
-        return fakeIp
+        return '.'.join(fakeIpList)
 
     def fmtCookie (self, string) :
         result = re.sub(r"path\=\/.", "", string)
@@ -105,16 +89,15 @@ class Tools (object) :
         reprStr = repr(str).replace(r'\x', '%')
         return reprStr[1:-1]
 
-    def gzdecode(self, data) :
+    def gzdecode(self, data):
         try:
             compressedstream = io.StringIO(data)
             gziper = gzip.GzipFile(fileobj = compressedstream)
-            html = gziper.read()
-            return html
+            return gziper.read()
         except :
             return data
 
-    def fmtTitle (self, string) :
+    def fmtTitle(self, string):
         pattern = re.compile(r"(cctv[-|\s]*\d*)?(.*)", re.I)
         tmp = pattern.findall(string)
         channelId = tmp[0][0].strip('-').strip()
@@ -157,8 +140,8 @@ class Tools (object) :
             pattern = re.compile(r"cctv[-|\s]*(\d*)", re.I)
             result['id'] = re.sub(pattern, "CCTV-\\1", result['id'])
 
-            if '+' in result['title'] :
-                result['id'] = result['id'] + str('+')
+            if '+' in result['title']:
+                result['id'] = result['id'] + '+'
 
         pattern = re.compile(r"\[\d+\*\d+\]", re.I)
         result['title'] = re.sub(pattern, "", result['title'])
@@ -174,16 +157,14 @@ class Tools (object) :
 
         return result
 
-    def chkPlayable (self, url) :
+    def chkPlayable(self, url):
         try:
             startTime = int(round(time.time() * 1000))
             code = urllib.request.urlopen(url).getcode()
-            if code == 200 :
-                endTime = int(round(time.time() * 1000))
-                useTime = endTime - startTime
-                return int(useTime)
-            else:
+            if code != 200:
                 return 0
+            endTime = int(round(time.time() * 1000))
+            return int(endTime - startTime)
         except:
             return 0
 
@@ -199,11 +180,8 @@ class Tools (object) :
         # except:
         #     return 0
 
-    def logger (self, txt, new = False) :
+    def logger(self, txt, new = False):
         filePath = os.path.join(os.path.dirname(os.path.abspath(__file__)).replace('python', 'http'), 'log.txt')
-        if new :
-            typ = 'w'
-        else :
-            typ = 'a'
+        typ = 'w' if new else 'a'
         with open(filePath, typ) as f: 
             f.write(time.strftime("%Y/%m/%d %H:%M:%S", time.localtime()) + ": " + txt + "\r\n")

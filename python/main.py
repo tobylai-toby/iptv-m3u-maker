@@ -47,13 +47,10 @@ class Main (object):
             debug = False 
         )
 
-    def run (self):
-        threads = []
-
+    def run(self):
         thread = threading.Thread(target = self.site, args = (), daemon = True)
         thread.start()
-        threads.append(thread)
-
+        threads = [thread]
         thread = threading.Thread(target = self.scan, args = (), daemon = True)
         thread.start()
         threads.append(thread)

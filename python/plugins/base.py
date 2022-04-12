@@ -13,16 +13,14 @@ class Source (object) :
         self.T = tools.Tools()
         self.now = int(time.time() * 1000)
 
-    def getSource (self) :
-        urlList = []
-
+    def getSource(self):
         url = 'https://www.jianshu.com/p/2499255c7e79'
         req = [
             'user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Mobile Safari/537.36',
         ]
         res = self.T.getPage(url, req)
 
-        if res['code'] == 200 :
+        if res['code'] == 200:
             pattern = re.compile(r"<code(.*?)</code>", re.I|re.S)
             tmp = pattern.findall(res['body'])
 
@@ -38,17 +36,14 @@ class Source (object) :
                 threads.append(thread)
             for t in threads:
                 t.join()
-        else :
-            pass # MAYBE later :P
+        return []
 
-        return urlList
-
-    def detectData (self, title, url) :
+    def detectData(self, title, url):
         info = self.T.fmtTitle(title)
-        
+
         netstat = self.T.chkPlayable(url)
 
-        if netstat > 0 :
+        if netstat > 0:
             cros = 1 if self.T.chkCros(url) else 0
             data = {
                 'title'  : str(info['id']) if info['id'] != '' else str(info['title']),
@@ -60,11 +55,9 @@ class Source (object) :
                 'online' : 1,
                 'udTime' : self.now,
             }
-            
+
             self.addData(data)
-            self.T.logger('正在分析[ %s ]: %s' % (str(info['id']) + str(info['title']), url))
-        else :
-            pass # MAYBE later :P
+            self.T.logger(f"正在分析[ {str(info['id']) + str(info['title'])} ]: {url}")
 
     def addData (self, data) :
         DB = db.DataBase()

@@ -14,14 +14,14 @@ class Source (object) :
         self.T = tools.Tools()
         self.now = int(time.time() * 1000)
 
-    def getSource (self) :
+    def getSource(self):
         sourcePath = './plugins/dotpy_source'
         with open(sourcePath, 'r') as f:
             lines = f.readlines()
             total = len(lines)
             threads = ThreadPool(20)
 
-            for i in range(0, total):
+            for i in range(total):
                 line = lines[i].strip('\n')
                 item = line.split(',', 1)
                 threads.add_task(self.detectData, title = item[0], url = item[1])
@@ -33,13 +33,13 @@ class Source (object) :
             # for t in threads:
             #     t.join()
 
-    def detectData (self, title, url) :
+    def detectData(self, title, url):
         print('detectData', title, url)
         info = self.T.fmtTitle(title)
 
         netstat = self.T.chkPlayable(url)
 
-        if netstat > 0 :
+        if netstat > 0:
             cros = 1 if self.T.chkCros(url) else 0
             data = {
                 'title'  : str(info['id']) if info['id'] != '' else str(info['title']),
@@ -52,9 +52,7 @@ class Source (object) :
                 'udTime' : self.now,
             }
             self.addData(data)
-            self.T.logger('正在分析[ %s ]: %s' % (str(info['id']) + str(info['title']), url))
-        else :
-            pass # MAYBE later :P
+            self.T.logger(f"正在分析[ {str(info['id']) + str(info['title'])} ]: {url}")
 
     def addData (self, data) :
         DB = db.DataBase()
